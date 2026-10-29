@@ -1,1 +1,134 @@
-/* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
+@import "tailwindcss";
+
+/* =========================================
+   CSS Anchor Positioning – @position-try fallback blocks
+   Each block resets all inset/margin/translate values so
+   switching placements never inherits stale properties.
+   ========================================= */
+
+@position-try --placement-top {
+  inset: auto;
+  margin: 0;
+  bottom: anchor(top);
+  margin-bottom: 8px;
+  left: anchor(center);
+  translate: -50% 0;
+}
+
+@position-try --placement-bottom {
+  inset: auto;
+  margin: 0;
+  top: anchor(bottom);
+  margin-top: 8px;
+  left: anchor(center);
+  translate: -50% 0;
+}
+
+@position-try --placement-left {
+  inset: auto;
+  margin: 0;
+  right: anchor(left);
+  margin-right: 8px;
+  top: anchor(center);
+  translate: 0 -50%;
+}
+
+@position-try --placement-right {
+  inset: auto;
+  margin: 0;
+  left: anchor(right);
+  margin-left: 8px;
+  top: anchor(center);
+  translate: 0 -50%;
+}
+
+/* =========================================
+   Tooltip – base styles
+   position-anchor is injected by the anchor-positioned modifier.
+   data-placement is set by the same modifier and drives
+   both the default position and the fallback order.
+   ========================================= */
+
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  cursor: default;
+}
+
+[popover].tooltip {
+  /* Remove browser popover defaults */
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  border: none;
+
+  /* Appearance */
+  padding: 0.375rem 0.75rem;
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  max-width: 240px;
+  white-space: nowrap;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 15%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+
+  /* Discrete transition using the allow-discrete keyword
+     so the popover fades in/out without jumping */
+  opacity: 0;
+  transition:
+    opacity 0.15s ease-in-out,
+    display 0.15s ease-in-out allow-discrete,
+    overlay 0.15s ease-in-out allow-discrete;
+}
+
+[popover].tooltip:popover-open {
+  opacity: 1;
+}
+
+/* Entry animation – avoids a flash at 0 opacity on first frame */
+@starting-style {
+  [popover].tooltip:popover-open {
+    opacity: 0;
+  }
+}
+
+/* ─── Default placement: top ──────────────────────────── */
+[popover].tooltip[data-placement="top"] {
+  bottom: anchor(top);
+  margin-bottom: 8px;
+  left: anchor(center);
+  translate: -50% 0;
+  position-try-fallbacks:
+    --placement-bottom, --placement-right, --placement-left;
+}
+
+/* ─── Placement: bottom ───────────────────────────────── */
+[popover].tooltip[data-placement="bottom"] {
+  top: anchor(bottom);
+  margin-top: 8px;
+  left: anchor(center);
+  translate: -50% 0;
+  position-try-fallbacks: --placement-top, --placement-right, --placement-left;
+}
+
+/* ─── Placement: left ─────────────────────────────────── */
+[popover].tooltip[data-placement="left"] {
+  right: anchor(left);
+  margin-right: 8px;
+  top: anchor(center);
+  translate: 0 -50%;
+  position-try-fallbacks:
+    --placement-right, --placement-top, --placement-bottom;
+}
+
+/* ─── Placement: right ────────────────────────────────── */
+[popover].tooltip[data-placement="right"] {
+  left: anchor(right);
+  margin-left: 8px;
+  top: anchor(center);
+  translate: 0 -50%;
+  position-try-fallbacks: --placement-left, --placement-top, --placement-bottom;
+}

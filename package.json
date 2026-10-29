@@ -54,6 +54,7 @@
     "@glint/template": "^1.9.0",
     "@glint/tsserver-plugin": "^2.7.7",
     "@rollup/plugin-babel": "^7.1.0",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/qunit": "^2.19.14",
     "@types/rsvp": "^4.0.9",
     "@warp-drive/core": "~5.8.2",
@@ -88,6 +89,7 @@
     "qunit-dom": "^3.6.0",
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",
+    "tailwindcss": "^4.3.3",
     "testem": "^3.21.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0",
@@ -98,5 +100,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "@oddbird/css-anchor-positioning": "^0.10.2"
   }
 }

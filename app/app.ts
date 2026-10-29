@@ -1,4 +1,7 @@
 import '@warp-drive/ember/install';
+// @oddbird/css-anchor-positioning: auto-polyfills anchor positioning in
+// browsers that don't yet support it natively.
+import '@oddbird/css-anchor-positioning';
 import Application from '@ember/application';
 import compatModules from '@embroider/virtual/compat-modules';
 import Resolver from 'ember-resolver';
