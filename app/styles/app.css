@@ -43,26 +43,47 @@
 }
 
 /* =========================================
+   Shared popover base
+   Both .tooltip and .popover-panel share the same
+   position/transition foundation.
+   ========================================= */
+
+/* Shared layout — both types are fixed-positioned and start hidden */
+[popover].tooltip,
+[popover].popover-panel {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  border: none;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease-in-out,
+    display 0.15s ease-in-out allow-discrete,
+    overlay 0.15s ease-in-out allow-discrete;
+}
+
+/* =========================================
+   Popover panel – click-triggered, auto-dismiss
+   ========================================= */
+
+[popover].popover-panel {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  min-width: 200px;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
+}
+
+/* =========================================
    Tooltip – base styles
    position-anchor is injected by the anchor-positioned modifier.
    data-placement is set by the same modifier and drives
    both the default position and the fallback order.
    ========================================= */
 
-.tooltip-trigger {
-  display: inline-flex;
-  align-items: center;
-  cursor: default;
-}
-
 [popover].tooltip {
-  /* Remove browser popover defaults */
-  position: fixed;
-  inset: auto;
-  margin: 0;
-  border: none;
-
-  /* Appearance */
   padding: 0.375rem 0.75rem;
   background-color: #1e293b;
   color: #f8fafc;
@@ -74,23 +95,18 @@
   box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 15%),
     0 2px 4px -2px rgb(0 0 0 / 10%);
-
-  /* Discrete transition using the allow-discrete keyword
-     so the popover fades in/out without jumping */
-  opacity: 0;
-  transition:
-    opacity 0.15s ease-in-out,
-    display 0.15s ease-in-out allow-discrete,
-    overlay 0.15s ease-in-out allow-discrete;
 }
 
-[popover].tooltip:popover-open {
+/* Open state and entry animation — kept after base rules so specificity
+   order is ascending ([popover].x → [popover].x:popover-open) */
+[popover].tooltip:popover-open,
+[popover].popover-panel:popover-open {
   opacity: 1;
 }
 
-/* Entry animation – avoids a flash at 0 opacity on first frame */
 @starting-style {
-  [popover].tooltip:popover-open {
+  [popover].tooltip:popover-open,
+  [popover].popover-panel:popover-open {
     opacity: 0;
   }
 }
