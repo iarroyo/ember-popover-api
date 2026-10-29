@@ -111,8 +111,12 @@
   }
 }
 
-/* ─── Default placement: top ──────────────────────────── */
-[popover].tooltip[data-placement="top"] {
+/* ─── Placement rules apply to any anchored popover ──── */
+
+/* Using [popover][data-placement] (no class restriction)
+   so both .tooltip and .popover-panel are covered.       */
+
+[popover][data-placement="top"] {
   bottom: anchor(top);
   margin-bottom: 8px;
   left: anchor(center);
@@ -121,8 +125,7 @@
     --placement-bottom, --placement-right, --placement-left;
 }
 
-/* ─── Placement: bottom ───────────────────────────────── */
-[popover].tooltip[data-placement="bottom"] {
+[popover][data-placement="bottom"] {
   top: anchor(bottom);
   margin-top: 8px;
   left: anchor(center);
@@ -130,8 +133,7 @@
   position-try-fallbacks: --placement-top, --placement-right, --placement-left;
 }
 
-/* ─── Placement: left ─────────────────────────────────── */
-[popover].tooltip[data-placement="left"] {
+[popover][data-placement="left"] {
   right: anchor(left);
   margin-right: 8px;
   top: anchor(center);
@@ -140,8 +142,7 @@
     --placement-right, --placement-top, --placement-bottom;
 }
 
-/* ─── Placement: right ────────────────────────────────── */
-[popover].tooltip[data-placement="right"] {
+[popover][data-placement="right"] {
   left: anchor(right);
   margin-left: 8px;
   top: anchor(center);

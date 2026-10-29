@@ -6,8 +6,10 @@ import hoverTrigger from 'ember-popover-api/modifiers/hover-trigger';
 <template>
   {{pageTitle "Popover API + CSS Anchor Positioning"}}
 
-  <div class="min-h-screen bg-slate-100 p-8">
-    <div class="mx-auto max-w-3xl space-y-10">
+  <div class="min-h-screen bg-slate-100">
+
+    {{! Padded content: header + tooltip + popover sections }}
+    <div class="mx-auto max-w-3xl space-y-10 p-8">
 
       {{! Header }}
       <div class="text-center">
@@ -179,106 +181,122 @@ import hoverTrigger from 'ember-popover-api/modifiers/hover-trigger';
         </div>
       </section>
 
-      {{! ── Fallback positions ───────────────────────────── }}
+      {{! Fallback section: description only — demo is full-bleed below }}
       <section>
         <h2 class="mb-1 text-lg font-semibold text-slate-700">
           Fallback positions
         </h2>
-        <p class="mb-4 text-sm text-slate-500">
-          Buttons near the edge prefer
-          <strong>top</strong>, but flip via
+        <p class="text-sm text-slate-500">
+          Each button prefers a placement but falls back via
           <code
             class="rounded bg-slate-200 px-1 font-mono text-xs"
           >position-try-fallbacks</code>
-          when there is no space.
+          when there is no viewport space. The demo area below is full viewport
+          height so the corner buttons genuinely reach the viewport edges.
         </p>
-
-        <div class="relative h-72 rounded-xl bg-white shadow-sm">
-
-          <div class="absolute left-2 top-2">
-            <button
-              type="button"
-              class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
-              {{anchorName "fb-tl"}}
-              {{hoverTrigger "fb-tl"}}
-            >Top-left</button>
-            <div
-              id="fb-tl"
-              role="tooltip"
-              popover="manual"
-              class="tooltip"
-              {{anchorPositioned "fb-tl" placement="top"}}
-            >Prefers top</div>
-          </div>
-
-          <div class="absolute right-2 top-2">
-            <button
-              type="button"
-              class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
-              {{anchorName "fb-tr"}}
-              {{hoverTrigger "fb-tr"}}
-            >Top-right</button>
-            <div
-              id="fb-tr"
-              role="tooltip"
-              popover="manual"
-              class="tooltip"
-              {{anchorPositioned "fb-tr" placement="top"}}
-            >Prefers top</div>
-          </div>
-
-          <div class="absolute bottom-2 left-2">
-            <button
-              type="button"
-              class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
-              {{anchorName "fb-bl"}}
-              {{hoverTrigger "fb-bl"}}
-            >Bottom-left</button>
-            <div
-              id="fb-bl"
-              role="tooltip"
-              popover="manual"
-              class="tooltip"
-              {{anchorPositioned "fb-bl" placement="bottom"}}
-            >Prefers bottom</div>
-          </div>
-
-          <div class="absolute bottom-2 right-2">
-            <button
-              type="button"
-              class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
-              {{anchorName "fb-br"}}
-              {{hoverTrigger "fb-br"}}
-            >Bottom-right</button>
-            <div
-              id="fb-br"
-              role="tooltip"
-              popover="manual"
-              class="tooltip"
-              {{anchorPositioned "fb-br" placement="bottom"}}
-            >Prefers bottom</div>
-          </div>
-
-          <div class="absolute inset-0 flex items-center justify-center">
-            <button
-              type="button"
-              class="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-violet-700"
-              {{anchorName "fb-center"}}
-              {{hoverTrigger "fb-center"}}
-            >Centre (top)</button>
-            <div
-              id="fb-center"
-              role="tooltip"
-              popover="manual"
-              class="tooltip"
-              {{anchorPositioned "fb-center" placement="top"}}
-            >Plenty of space</div>
-          </div>
-
-        </div>
       </section>
 
     </div>
+
+    {{! ── Fallback demo – full viewport width × height ──── }}
+    {{! Must be full-bleed: position-try-fallbacks triggers on  }}
+    {{! viewport overflow, not container overflow.              }}
+    <div class="relative h-screen w-full bg-white shadow-inner">
+
+      {{! Label }}
+      <p
+        class="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-sm text-slate-300 select-none"
+      >
+        Hover the corner and centre buttons
+      </p>
+
+      {{! Top-left → prefers top, flips to bottom }}
+      <div class="absolute left-4 top-4">
+        <button
+          type="button"
+          class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
+          {{anchorName "fb-tl"}}
+          {{hoverTrigger "fb-tl"}}
+        >Top-left</button>
+        <div
+          id="fb-tl"
+          role="tooltip"
+          popover="manual"
+          class="tooltip"
+          {{anchorPositioned "fb-tl" placement="top"}}
+        >Prefers top → flips to bottom</div>
+      </div>
+
+      {{! Top-right → prefers top, flips to bottom }}
+      <div class="absolute right-4 top-4">
+        <button
+          type="button"
+          class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
+          {{anchorName "fb-tr"}}
+          {{hoverTrigger "fb-tr"}}
+        >Top-right</button>
+        <div
+          id="fb-tr"
+          role="tooltip"
+          popover="manual"
+          class="tooltip"
+          {{anchorPositioned "fb-tr" placement="top"}}
+        >Prefers top → flips to bottom</div>
+      </div>
+
+      {{! Bottom-left → prefers bottom, flips to top }}
+      <div class="absolute bottom-4 left-4">
+        <button
+          type="button"
+          class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
+          {{anchorName "fb-bl"}}
+          {{hoverTrigger "fb-bl"}}
+        >Bottom-left</button>
+        <div
+          id="fb-bl"
+          role="tooltip"
+          popover="manual"
+          class="tooltip"
+          {{anchorPositioned "fb-bl" placement="bottom"}}
+        >Prefers bottom → flips to top</div>
+      </div>
+
+      {{! Bottom-right → prefers bottom, flips to top }}
+      <div class="absolute bottom-4 right-4">
+        <button
+          type="button"
+          class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white shadow hover:bg-emerald-700"
+          {{anchorName "fb-br"}}
+          {{hoverTrigger "fb-br"}}
+        >Bottom-right</button>
+        <div
+          id="fb-br"
+          role="tooltip"
+          popover="manual"
+          class="tooltip"
+          {{anchorPositioned "fb-br" placement="bottom"}}
+        >Prefers bottom → flips to top</div>
+      </div>
+
+      {{! Centre → always has space, stays on preferred side }}
+      <div class="absolute inset-0 flex items-center justify-center">
+        <button
+          type="button"
+          class="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-violet-700"
+          {{anchorName "fb-center"}}
+          {{hoverTrigger "fb-center"}}
+        >Centre (top)</button>
+        <div
+          id="fb-center"
+          role="tooltip"
+          popover="manual"
+          class="tooltip"
+          {{anchorPositioned "fb-center" placement="top"}}
+        >Plenty of space — stays on top</div>
+      </div>
+
+    </div>
+
   </div>
 
   {{outlet}}
