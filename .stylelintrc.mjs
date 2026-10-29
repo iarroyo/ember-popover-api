@@ -12,6 +12,7 @@ export default {
           'apply',
           'config',
           'theme',
+          'source',
         ],
       },
     ],

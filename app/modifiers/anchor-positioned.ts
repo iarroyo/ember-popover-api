@@ -18,13 +18,22 @@ export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export default modifier(function anchorPositioned(
   element: HTMLElement,
   [anchorName]: [string],
-  { placement = 'top' }: { placement?: Placement },
+  {
+    placement = 'top',
+    fallback = false,
+  }: { placement?: Placement; fallback?: boolean },
 ) {
   element.style.setProperty('position-anchor', `--${anchorName}`);
   element.dataset['placement'] = placement;
+  if (fallback) {
+    element.dataset['fallback'] = '';
+  } else {
+    delete element.dataset['fallback'];
+  }
 
   return () => {
     element.style.removeProperty('position-anchor');
     delete element.dataset['placement'];
+    delete element.dataset['fallback'];
   };
 });

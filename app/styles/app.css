@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Explicitly scan GTS/GJS templates — Tailwind v4 doesn't auto-detect
+   non-standard extensions, so class names like `absolute`, `right-4`,
+   `bottom-4` would be missing from the output without this. */
+@source "../**/*.{gts,gjs}";
+
 /* =========================================
    CSS Anchor Positioning – @position-try fallback blocks
    Each block resets all inset/margin/translate values so
@@ -111,18 +116,19 @@
   }
 }
 
-/* ─── Placement rules apply to any anchored popover ──── */
+/* ─── Placement rules – anchor() insets only ────────── */
 
-/* Using [popover][data-placement] (no class restriction)
-   so both .tooltip and .popover-panel are covered.       */
+/* No position-try-fallbacks here so explicit demos show  */
+
+/* the requested side with no interference from fallbacks. */
+
+/* Add data-fallback="" on the element to opt in.         */
 
 [popover][data-placement="top"] {
   bottom: anchor(top);
   margin-bottom: 8px;
   left: anchor(center);
   translate: -50% 0;
-  position-try-fallbacks:
-    --placement-bottom, --placement-right, --placement-left;
 }
 
 [popover][data-placement="bottom"] {
@@ -130,7 +136,6 @@
   margin-top: 8px;
   left: anchor(center);
   translate: -50% 0;
-  position-try-fallbacks: --placement-top, --placement-right, --placement-left;
 }
 
 [popover][data-placement="left"] {
@@ -138,8 +143,6 @@
   margin-right: 8px;
   top: anchor(center);
   translate: 0 -50%;
-  position-try-fallbacks:
-    --placement-right, --placement-top, --placement-bottom;
 }
 
 [popover][data-placement="right"] {
@@ -147,5 +150,24 @@
   margin-left: 8px;
   top: anchor(center);
   translate: 0 -50%;
+}
+
+/* ─── Fallback opt-in via data-fallback="" ───────────── */
+
+[popover][data-placement="top"][data-fallback] {
+  position-try-fallbacks:
+    --placement-bottom, --placement-right, --placement-left;
+}
+
+[popover][data-placement="bottom"][data-fallback] {
+  position-try-fallbacks: --placement-top, --placement-right, --placement-left;
+}
+
+[popover][data-placement="left"][data-fallback] {
+  position-try-fallbacks:
+    --placement-right, --placement-top, --placement-bottom;
+}
+
+[popover][data-placement="right"][data-fallback] {
   position-try-fallbacks: --placement-left, --placement-top, --placement-bottom;
 }
