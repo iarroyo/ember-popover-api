@@ -1,4 +1,8 @@
 import '@warp-drive/ember/install';
+// Tailwind CSS v4 — imported from JS so Vite transforms it through
+// @tailwindcss/vite before serving (the virtual app.css link tag is
+// served as a static file and bypasses Vite's transform pipeline).
+import './styles/tailwind.css';
 // @oddbird/css-anchor-positioning: auto-polyfills anchor positioning in
 // browsers that don't yet support it natively.
 import '@oddbird/css-anchor-positioning';

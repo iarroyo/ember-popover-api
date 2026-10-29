@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+/* Scan GTS/GJS templates so Tailwind generates classes used in .gts/.gjs files */
+@source "../**/*.{gts,gjs}";

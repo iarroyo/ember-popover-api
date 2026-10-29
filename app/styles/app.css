@@ -1,10 +1,3 @@
-@import "tailwindcss";
-
-/* Explicitly scan GTS/GJS templates — Tailwind v4 doesn't auto-detect
-   non-standard extensions, so class names like `absolute`, `right-4`,
-   `bottom-4` would be missing from the output without this. */
-@source "../**/*.{gts,gjs}";
-
 /* =========================================
    CSS Anchor Positioning – @position-try fallback blocks
    Each block resets all inset/margin/translate values so
