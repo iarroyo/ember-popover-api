@@ -1,7 +1,11 @@
 /* =========================================
    CSS Anchor Positioning – @position-try fallback blocks
-   Each block resets all inset/margin/translate values so
-   switching placements never inherits stale properties.
+
+   Note: `translate` is NOT an allowed property inside @position-try blocks
+   (CSS Anchor Positioning Level 1 spec only permits inset, margin, sizing,
+   align-self, justify-self, and position-area). Chrome ignores any translate
+   declared here. Instead, translate is controlled on the base element via
+   the [data-fallback] overrides below, so it persists into every fallback.
    ========================================= */
 
 @position-try --placement-top {
@@ -9,8 +13,7 @@
   margin: 0;
   bottom: anchor(top);
   margin-bottom: 8px;
-  left: anchor(center);
-  translate: -50% 0;
+  left: anchor(left);
 }
 
 @position-try --placement-bottom {
@@ -18,8 +21,7 @@
   margin: 0;
   top: anchor(bottom);
   margin-top: 8px;
-  left: anchor(center);
-  translate: -50% 0;
+  left: anchor(left);
 }
 
 @position-try --placement-left {
@@ -28,7 +30,8 @@
   right: anchor(left);
   margin-right: 8px;
   top: anchor(center);
-  translate: 0 -50%;
+  /* Approximate vertical centering without translate (tooltip height ≈ 32px) */
+  margin-top: -16px;
 }
 
 @position-try --placement-right {
@@ -37,7 +40,7 @@
   left: anchor(right);
   margin-left: 8px;
   top: anchor(center);
-  translate: 0 -50%;
+  margin-top: -16px;
 }
 
 /* =========================================
@@ -146,6 +149,16 @@
 }
 
 /* ─── Fallback opt-in via data-fallback="" ───────────── */
+
+/* For top/bottom fallback elements: disable centering translate so the
+   browser's overflow check (which runs on the layout box, before transforms)
+   matches the painted position. translate is set here — not in @position-try —
+   because @position-try blocks cannot contain the translate property. */
+[popover][data-placement="top"][data-fallback],
+[popover][data-placement="bottom"][data-fallback] {
+  left: anchor(left);
+  translate: none;
+}
 
 [popover][data-placement="top"][data-fallback] {
   position-try-fallbacks:
