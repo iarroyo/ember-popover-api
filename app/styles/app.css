@@ -179,6 +179,15 @@
   translate: none;
 }
 
+/* Exception: elements with data-prefer-center are never near a viewport edge,
+   so restoring the centering translate is safe — if a fallback fires the
+   anchor is mid-screen and translate: -50% never causes visual overflow. */
+[popover][data-placement="top"][data-fallback][data-prefer-center],
+[popover][data-placement="bottom"][data-fallback][data-prefer-center] {
+  left: anchor(center);
+  translate: -50% 0;
+}
+
 [popover][data-placement="top"][data-fallback] {
   position-try-fallbacks:
     --placement-bottom,

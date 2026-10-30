@@ -265,6 +265,7 @@ import hoverTrigger from 'ember-popover-api/modifiers/hover-trigger';
           role="tooltip"
           popover="manual"
           class="tooltip"
+          data-prefer-center
           {{anchorPositioned "fb-center" placement="top" fallback=true}}
         >Plenty of space — stays on top</div>
       </div>
