@@ -16,12 +16,31 @@
   left: anchor(left);
 }
 
+/* Right-aligned variant: tooltip right edge follows anchor right edge.
+   Used when the anchor is near the right viewport edge and left-aligned
+   top/bottom would overflow. */
+@position-try --placement-top-right {
+  inset: auto;
+  margin: 0;
+  bottom: anchor(top);
+  margin-bottom: 8px;
+  right: anchor(right);
+}
+
 @position-try --placement-bottom {
   inset: auto;
   margin: 0;
   top: anchor(bottom);
   margin-top: 8px;
   left: anchor(left);
+}
+
+@position-try --placement-bottom-right {
+  inset: auto;
+  margin: 0;
+  top: anchor(bottom);
+  margin-top: 8px;
+  right: anchor(right);
 }
 
 @position-try --placement-left {
@@ -162,11 +181,18 @@
 
 [popover][data-placement="top"][data-fallback] {
   position-try-fallbacks:
-    --placement-bottom, --placement-right, --placement-left;
+    --placement-bottom,
+    --placement-bottom-right,
+    --placement-right,
+    --placement-left;
 }
 
 [popover][data-placement="bottom"][data-fallback] {
-  position-try-fallbacks: --placement-top, --placement-right, --placement-left;
+  position-try-fallbacks:
+    --placement-top,
+    --placement-top-right,
+    --placement-right,
+    --placement-left;
 }
 
 [popover][data-placement="left"][data-fallback] {
